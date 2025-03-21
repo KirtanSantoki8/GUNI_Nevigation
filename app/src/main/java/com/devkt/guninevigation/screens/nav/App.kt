@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.devkt.guninevigation.screens.HomeScreen
 import com.devkt.guninevigation.screens.LoginScreen
 import com.devkt.guninevigation.screens.RegisterScreen
 
@@ -19,6 +20,10 @@ fun App(modifier: Modifier = Modifier) {
 
         composable<Routs.RegisterScreen> {
             RegisterScreen(navController = navController)
+        }
+
+        composable<Routs.HomeScreen> {
+            HomeScreen(navController = navController)
         }
     }
 }

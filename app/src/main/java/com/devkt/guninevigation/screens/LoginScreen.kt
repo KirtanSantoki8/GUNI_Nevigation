@@ -58,6 +58,7 @@ fun LoginScreen(
         }
         state.value.data != null -> {
             Toast.makeText(context, "Logged In Successfully", Toast.LENGTH_SHORT).show()
+            navController.navigate(Routs.HomeScreen)
         }
     }
 
@@ -103,7 +104,8 @@ fun LoginScreen(
                         Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                     }
                     else {
-                        viewModel.login(email.value, password.value)
+//                        viewModel.login(email.value, password.value)
+                        navController.navigate(Routs.HomeScreen)
                     }
                 },
                 modifier = Modifier.padding(top = 10.dp)

@@ -8,4 +8,7 @@ sealed class Routs {
 
     @Serializable
     object LoginScreen
+
+    @Serializable
+    object HomeScreen
 }
