@@ -1,6 +1,5 @@
 package com.devkt.guninevigation.screens
 
-import android.graphics.Paint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -26,19 +25,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.devkt.guninevigation.R
 import com.devkt.guninevigation.screens.nav.Routs
-import com.devkt.guninevigation.viewModel.MyViewModel
+import com.devkt.guninevigation.viewModel.LoginRegisterViewModel
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    viewModel: MyViewModel = hiltViewModel(),
+    viewModel: LoginRegisterViewModel = hiltViewModel(),
     navController: NavController
 ) {
     val state = viewModel.loginUser.collectAsState()

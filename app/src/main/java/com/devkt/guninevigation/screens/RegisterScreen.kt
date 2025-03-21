@@ -31,12 +31,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.devkt.guninevigation.R
 import com.devkt.guninevigation.screens.nav.Routs
-import com.devkt.guninevigation.viewModel.MyViewModel
+import com.devkt.guninevigation.viewModel.LoginRegisterViewModel
 
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    viewModel: MyViewModel = hiltViewModel(),
+    viewModel: LoginRegisterViewModel = hiltViewModel(),
     navController: NavController
 ) {
     val state = viewModel.createUser.collectAsState()
