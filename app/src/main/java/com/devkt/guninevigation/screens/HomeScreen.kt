@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.devkt.guninevigation.R
+import okhttp3.internal.wait
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,12 +116,13 @@ fun HomeScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = 7.dp)
                 )
-                ElevatedButton(
+                Button(
                     onClick = {
 
                     },
                     shape = RoundedCornerShape(5.dp),
                     colors = ButtonDefaults.buttonColors(Color.Black),
+                    elevation = ButtonDefaults.buttonElevation(10.dp),
                     modifier = Modifier.padding(top = 30.dp)
                 ) {
                     Row(
@@ -128,7 +131,8 @@ fun HomeScreen(
                         Text(
                             text = "Start Exploring",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
+                            fontSize = 18.sp,
+                            color = Color.White
                         )
                         Image(
                             painter = painterResource(id = R.drawable.white_arrow),
@@ -174,7 +178,10 @@ fun HomeScreen(
                                     .width(120.dp)
                             ) {
                                 Text(
-                                    text = "Visit"
+                                    text = "Visit",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp,
+                                    color = Color.White
                                 )
                             }
                         }
