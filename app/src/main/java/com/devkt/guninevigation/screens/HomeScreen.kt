@@ -178,32 +178,6 @@ fun HomeScreen(
                                 )
                             }
                         }
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(top = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.black_left_arrow),
-                                contentDescription = null,
-                                modifier = Modifier.padding(top = 10.dp, start = 20.dp)
-                                    .height(40.dp)
-                                    .width(40.dp)
-                            )
-                            Row(
-                                modifier = Modifier.fillMaxWidth()
-                                    .padding(top = 5.dp),
-                                horizontalArrangement = Arrangement.End
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.black_right_arrow),
-                                    contentDescription = null,
-                                    modifier = Modifier.padding(top = 10.dp, end = 20.dp)
-                                        .height(40.dp)
-                                        .width(40.dp)
-                                )
-                            }
-                        }
                     }
                 }
             }
