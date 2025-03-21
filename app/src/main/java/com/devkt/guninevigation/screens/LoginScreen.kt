@@ -3,6 +3,7 @@ package com.devkt.guninevigation.screens
 import android.graphics.Paint
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,13 +30,16 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.devkt.guninevigation.R
+import com.devkt.guninevigation.screens.nav.Routs
 import com.devkt.guninevigation.viewModel.MyViewModel
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    viewModel: MyViewModel = hiltViewModel()
+    viewModel: MyViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val state = viewModel.loginUser.collectAsState()
     val context = LocalContext.current
@@ -114,7 +118,8 @@ fun LoginScreen(
                 )
                 Text(
                     text = "Register here",
-                    modifier = Modifier.padding(start = 5.dp),
+                    modifier = Modifier.padding(start = 5.dp)
+                        .clickable(true, onClick = { navController.navigate(Routs.RegisterScreen) }),
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFFFF9800)
                 )

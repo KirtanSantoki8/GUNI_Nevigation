@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.devkt.guninevigation.screens.LoginScreen
 import com.devkt.guninevigation.screens.RegisterScreen
+import com.devkt.guninevigation.screens.nav.App
 import com.devkt.guninevigation.ui.theme.GUNINevigationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             GUNINevigationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(modifier = Modifier.padding(innerPadding))
+                    App(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
