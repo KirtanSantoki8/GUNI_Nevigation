@@ -7,5 +7,5 @@ import androidx.compose.ui.Modifier
 fun AllPlacesScreen(
     modifier: Modifier = Modifier
 ) {
-
+    
 }
