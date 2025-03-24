@@ -2,6 +2,8 @@ package com.devkt.guninevigation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +44,7 @@ fun AllPlacesScreen(
         "Hospital",
         "Parking",
         "Canteen",
+        "Shopping",
         "Others"
     )
     val placesImages = listOf(
@@ -52,6 +56,7 @@ fun AllPlacesScreen(
         R.drawable.hospital,
         R.drawable.parking,
         R.drawable.canteen,
+        R.drawable.shopping_card_svgrepo_com,
         R.drawable.other_2_svgrepo_com
     )
 
@@ -76,6 +81,11 @@ fun AllPlacesScreen(
                 modifier = Modifier
                     .padding(start = 25.dp)
                     .height(45.dp)
+                    .clickable(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    )
             )
         }
         LazyVerticalGrid(
@@ -111,7 +121,7 @@ fun AllPlacesScreen(
                             text = places[it],
                             textAlign = TextAlign.Center,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
+                            fontSize = 15.sp,
                             modifier = Modifier.padding(top = 10.dp)
                         )
                     }
