@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import com.devkt.guninevigation.R
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
 fun AllPlacesScreen(
     modifier: Modifier = Modifier
 ) {
