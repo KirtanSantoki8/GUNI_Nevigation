@@ -1,11 +1,107 @@
 package com.devkt.guninevigation.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.devkt.guninevigation.R
 
 @Composable
+@Preview(showBackground = true, showSystemUi = true)
 fun AllPlacesScreen(
     modifier: Modifier = Modifier
 ) {
-    
+    val places = listOf(
+        "Hostels",
+        "Colleges",
+        "Mess",
+        "Sports Complex",
+        "Gym",
+        "Hospital",
+        "Parking",
+        "Canteen",
+        "Other"
+    )
+    val placesImages = listOf(
+        R.drawable.hostel,
+        R.drawable.colleges,
+        R.drawable.mess,
+        R.drawable.sport_ball,
+        R.drawable.gym,
+        R.drawable.hospital,
+        R.drawable.parking,
+        R.drawable.canteen,
+        R.drawable.other_2_svgrepo_com
+    )
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 70.dp, end = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Choose a place to visit",
+                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp,
+            )
+            Image(
+                painter = painterResource(id = R.drawable.close_sm_svgrepo_com),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 25.dp)
+                    .height(45.dp)
+            )
+        }
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            modifier = Modifier.padding(top = 50.dp, start = 10.dp, end = 10.dp)
+        ) {
+            items(places.size) {
+//                Text(
+//                    text = places[it],
+//                    textAlign = TextAlign.Center,
+//                )
+                Card(
+                    modifier = Modifier.height(120.dp)
+                        .width(50.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Image(
+                            painter = painterResource(id = placesImages[it]),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
