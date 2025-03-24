@@ -39,7 +39,7 @@ fun AllPlacesScreen(
         "Hospital",
         "Parking",
         "Canteen",
-        "Other"
+        "Others"
     )
     val placesImages = listOf(
         R.drawable.hostel,
@@ -79,25 +79,33 @@ fun AllPlacesScreen(
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             verticalArrangement = Arrangement.spacedBy(20.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.padding(top = 50.dp, start = 10.dp, end = 10.dp)
         ) {
             items(places.size) {
-//                Text(
-//                    text = places[it],
-//                    textAlign = TextAlign.Center,
-//                )
                 Card(
-                    modifier = Modifier.height(120.dp)
-                        .width(50.dp)
+                    modifier = Modifier.height(130.dp)
+                        .width(60.dp)
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
                             painter = painterResource(id = placesImages[it]),
                             contentDescription = null,
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.height(90.dp)
+                                .width(90.dp)
+                                .fillMaxWidth()
+                                .padding(top = 20.dp)
+                        )
+                        Text(
+                            text = places[it],
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(top = 10.dp)
                         )
                     }
                 }
