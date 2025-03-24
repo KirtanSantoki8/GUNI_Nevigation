@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.devkt.guninevigation.R
+import com.devkt.guninevigation.screens.nav.Routs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +64,7 @@ fun HomeScreen(
                             ) {
                                 IconButton(
                                     onClick = {
-
+                                        navController.navigate(Routs.AllPlacesScreen)
                                     },
                                 ) {
                                     Image(
@@ -114,7 +115,7 @@ fun HomeScreen(
                 )
                 Button(
                     onClick = {
-
+                        navController.navigate(Routs.AllPlacesScreen)
                     },
                     shape = RoundedCornerShape(5.dp),
                     colors = ButtonDefaults.buttonColors(Color.Black),

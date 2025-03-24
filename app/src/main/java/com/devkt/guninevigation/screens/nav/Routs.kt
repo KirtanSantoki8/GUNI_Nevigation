@@ -11,4 +11,7 @@ sealed class Routs {
 
     @Serializable
     object HomeScreen
+
+    @Serializable
+    object AllPlacesScreen
 }

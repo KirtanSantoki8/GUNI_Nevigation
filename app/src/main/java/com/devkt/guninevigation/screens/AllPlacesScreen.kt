@@ -1,6 +1,7 @@
 package com.devkt.guninevigation.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,11 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.devkt.guninevigation.R
 
 @Composable
 fun AllPlacesScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     val places = listOf(
         "Hostels",
@@ -85,6 +88,11 @@ fun AllPlacesScreen(
                 Card(
                     modifier = Modifier.height(130.dp)
                         .width(60.dp)
+                        .clickable(
+                            onClick = {
+
+                            }
+                        )
                 ) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
