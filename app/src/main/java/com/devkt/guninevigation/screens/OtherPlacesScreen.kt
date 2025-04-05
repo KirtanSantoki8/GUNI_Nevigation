@@ -44,7 +44,6 @@ fun OtherPlacesScreen(
     viewModel: GetMoreLocationsViewModel = hiltViewModel()
 ) {
     val state = viewModel.getMoreLocations.collectAsState()
-    val context = LocalContext.current
 
     LaunchedEffect(
         key1 = true
