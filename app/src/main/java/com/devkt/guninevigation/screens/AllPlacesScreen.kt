@@ -97,7 +97,7 @@ fun AllPlacesScreen(
                         .width(60.dp)
                         .clickable(
                             onClick = {
-                                navController.navigate(Routs.OtherPlacesScreen)
+
                             }
                         )
                 ) {
