@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.devkt.guninevigation.screens.AllPlacesScreen
 import com.devkt.guninevigation.screens.HomeScreen
 import com.devkt.guninevigation.screens.LoginScreen
+import com.devkt.guninevigation.screens.OtherPlacesScreen
 import com.devkt.guninevigation.screens.RegisterScreen
 
 @Composable
@@ -29,6 +30,10 @@ fun App(modifier: Modifier = Modifier) {
 
         composable<Routs.AllPlacesScreen> {
             AllPlacesScreen(navController = navController)
+        }
+
+        composable<Routs.OtherPlacesScreen> {
+            OtherPlacesScreen(navController = navController)
         }
     }
 }

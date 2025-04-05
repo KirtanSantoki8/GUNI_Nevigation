@@ -3,6 +3,7 @@ package com.devkt.guninevigation.repo
 import com.devkt.guninevigation.api.ApiBuilder
 import com.devkt.guninevigation.model.CreateUserResponse
 import com.devkt.guninevigation.common.Result
+import com.devkt.guninevigation.model.GetMoreLocationsResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -31,6 +32,16 @@ class Repo @Inject constructor(private val api: ApiBuilder) {
         emit(Result.Loading)
         try {
             val response = api.api.login(email, password)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun getMoreLocations(): Flow<Result<Response<GetMoreLocationsResponse>>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = api.api.getMoreLocations()
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

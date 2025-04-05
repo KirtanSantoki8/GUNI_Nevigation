@@ -14,4 +14,7 @@ sealed class Routs {
 
     @Serializable
     object AllPlacesScreen
+
+    @Serializable
+    object OtherPlacesScreen
 }

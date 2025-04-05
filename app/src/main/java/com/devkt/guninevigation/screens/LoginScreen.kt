@@ -102,8 +102,7 @@ fun LoginScreen(
                         Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                     }
                     else {
-//                        viewModel.login(email.value, password.value)
-                        navController.navigate(Routs.HomeScreen)
+                        viewModel.login(email.value, password.value)
                     }
                 },
                 modifier = Modifier.padding(top = 10.dp)
