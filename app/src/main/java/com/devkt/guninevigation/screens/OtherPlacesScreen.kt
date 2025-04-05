@@ -52,28 +52,29 @@ fun OtherPlacesScreen(
         viewModel.getMoreLocations()
     }
 
-    when{
+    when {
         state.value.isLoading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         }
+
         state.value.error != null -> {
             Text(text = state.value.error!!, modifier = Modifier.padding(50.dp))
         }
+
         state.value.data != null -> {
             val data = state.value.data!!.message
             val status = state.value.data!!.status
-            if (status == 400){
-                Column (
+            if (status == 400) {
+                Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
+                ) {
                     Text(text = "No Data Found.")
                 }
-            }
-            else {
+            } else {
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
@@ -109,7 +110,6 @@ fun OtherPlacesScreen(
                         modifier = Modifier.padding(top = 50.dp, start = 10.dp, end = 10.dp)
                     ) {
                         items(data.size) {
-                            Log.d("TAG", "OtherPlacesScreen: ${data[it][2]}")
                             Card(
                                 modifier = Modifier
                                     .height(130.dp)
@@ -128,7 +128,8 @@ fun OtherPlacesScreen(
                                         model = data[it][2],
                                         contentDescription = null,
                                         contentScale = ContentScale.Fit,
-                                        modifier = Modifier.height(90.dp)
+                                        modifier = Modifier
+                                            .height(90.dp)
                                             .width(90.dp)
                                             .fillMaxWidth()
                                             .padding(top = 20.dp)
