@@ -1,5 +1,6 @@
 package com.devkt.guninevigation.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -93,11 +94,16 @@ fun AllPlacesScreen(
         ) {
             items(places.size) {
                 Card(
-                    modifier = Modifier.height(130.dp)
+                    modifier = Modifier
+                        .height(130.dp)
                         .width(60.dp)
                         .clickable(
                             onClick = {
-
+                                if (places[it] == "Others") {
+                                    navController.navigate(Routs.OtherPlacesScreen)
+                                } else {
+                                    navController.navigate(Routs.SubPlacesScreen(places[it].toString()))
+                                }
                             }
                         )
                 ) {
@@ -109,7 +115,8 @@ fun AllPlacesScreen(
                             painter = painterResource(id = placesImages[it]),
                             contentDescription = null,
                             contentScale = ContentScale.Fit,
-                            modifier = Modifier.height(90.dp)
+                            modifier = Modifier
+                                .height(90.dp)
                                 .width(90.dp)
                                 .fillMaxWidth()
                                 .padding(top = 20.dp)

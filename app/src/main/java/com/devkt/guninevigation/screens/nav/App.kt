@@ -5,11 +5,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.devkt.guninevigation.screens.AllPlacesScreen
 import com.devkt.guninevigation.screens.HomeScreen
 import com.devkt.guninevigation.screens.LoginScreen
 import com.devkt.guninevigation.screens.OtherPlacesScreen
 import com.devkt.guninevigation.screens.RegisterScreen
+import com.devkt.guninevigation.screens.SubPlacesScreen
 
 @Composable
 fun App(modifier: Modifier = Modifier) {
@@ -34,6 +36,11 @@ fun App(modifier: Modifier = Modifier) {
 
         composable<Routs.OtherPlacesScreen> {
             OtherPlacesScreen(navController = navController)
+        }
+
+        composable<Routs.SubPlacesScreen> {
+            val data = it.toRoute<Routs.SubPlacesScreen>()
+            SubPlacesScreen(navController = navController, mainLocation = data.mainLocation)
         }
     }
 }

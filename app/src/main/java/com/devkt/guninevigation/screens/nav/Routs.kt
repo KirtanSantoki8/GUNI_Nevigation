@@ -17,4 +17,7 @@ sealed class Routs {
 
     @Serializable
     object OtherPlacesScreen
+
+    @Serializable
+    data class SubPlacesScreen(val mainLocation: String)
 }

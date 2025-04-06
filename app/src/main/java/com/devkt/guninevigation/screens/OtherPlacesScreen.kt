@@ -23,7 +23,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,9 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import com.devkt.guninevigation.R
+import com.devkt.guninevigation.screens.nav.Routs
 import com.devkt.guninevigation.viewModel.GetMoreLocationsViewModel
 
 @Composable
@@ -59,12 +57,19 @@ fun OtherPlacesScreen(
         }
 
         state.value.error != null -> {
-            Text(text = state.value.error!!, modifier = Modifier.padding(50.dp))
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "No Data Found.")
+            }
         }
 
         state.value.data != null -> {
             val data = state.value.data!!.message
             val status = state.value.data!!.status
+            Log.d("TAG", "OtherPlacesScreen: $status")
             if (status == 400) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -115,7 +120,7 @@ fun OtherPlacesScreen(
                                     .width(90.dp)
                                     .clickable(
                                         onClick = {
-
+                                            navController.navigate(Routs.SubPlacesScreen(data[it][3].toString()))
                                         }
                                     )
                             ) {
