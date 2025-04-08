@@ -7,14 +7,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.devkt.guninevigation.screens.LoginScreen
-import com.devkt.guninevigation.screens.RegisterScreen
-import com.devkt.guninevigation.screens.nav.App
+import com.devkt.guninevigation.screens.MapScreen
 import com.devkt.guninevigation.ui.theme.GUNINevigationTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,9 +24,30 @@ class MainActivity : ComponentActivity() {
         setContent {
             GUNINevigationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    App(modifier = Modifier.padding(innerPadding))
+                    MapScreen(modifier = Modifier.padding(innerPadding))
+                    Permission()
                 }
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun Permission() {
+    val permissionState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    )
+    LaunchedEffect(
+        key1 = true
+    ) {
+        if (permissionState.allPermissionsGranted){
+
+        }else{
+            permissionState.launchMultiplePermissionRequest()
         }
     }
 }
