@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             GUNINevigationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MapScreen(modifier = Modifier.padding(innerPadding))
                     Permission()
+                    MapScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
