@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GUNI Nevigation</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>
