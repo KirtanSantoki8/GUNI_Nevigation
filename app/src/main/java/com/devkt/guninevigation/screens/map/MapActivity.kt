@@ -50,14 +50,18 @@ class MapActivity : ComponentActivity() {
     private var origin: Point? = null
     private var destination: Point? = null
     private var routeRequested = false
+    private var isPermissionGranted = false
 
     private val locationPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            if (permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true ||
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
-            ) {
+            val granted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true ||
+                    permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
+
+            if (granted) {
+                isPermissionGranted = true
                 initializeMapComponents()
             } else {
+                isPermissionGranted = false
                 Toast.makeText(this, "Location permission denied.", Toast.LENGTH_SHORT).show()
             }
         }
@@ -69,6 +73,7 @@ class MapActivity : ComponentActivity() {
                 this, Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            isPermissionGranted = true
             initializeMapComponents()
         } else {
             locationPermissionRequest.launch(
@@ -81,25 +86,24 @@ class MapActivity : ComponentActivity() {
     }
 
     private fun initializeMapComponents() {
+        if (!isPermissionGranted) return
+
         mapView = MapView(this)
         setContentView(mapView)
 
-        // Default camera position before user location is available
         mapView.mapboxMap.setCamera(
             CameraOptions.Builder()
-                .center(Point.fromLngLat(72.380941, 23.607099)) // fallback position
+                .center(Point.fromLngLat(72.380941, 23.607099))
                 .zoom(14.0)
                 .build()
         )
 
-        // Enable location component with default puck
         mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
             locationPuck = createDefault2DPuck()
             enabled = true
         }
 
-        // Set up camera and route line rendering
         viewportDataSource = MapboxNavigationViewportDataSource(mapView.mapboxMap)
         val pixelDensity = resources.displayMetrics.density
         viewportDataSource.followingPadding = EdgeInsets(
@@ -121,7 +125,6 @@ class MapActivity : ComponentActivity() {
                 }
             }
 
-            // Update camera to fit route
             viewportDataSource.onRouteChanged(result.navigationRoutes.first())
             viewportDataSource.evaluate()
             navigationCamera.requestNavigationCameraToOverview()
@@ -153,10 +156,10 @@ class MapActivity : ComponentActivity() {
         onResumedObserver = object : MapboxNavigationObserver {
             @SuppressLint("MissingPermission")
             override fun onAttached(mapboxNavigation: MapboxNavigation) {
+                if (!isPermissionGranted) return
                 mapboxNavigation.registerRoutesObserver(routesObserver)
                 mapboxNavigation.registerLocationObserver(locationObserver)
 
-                // ✅ Use real location
                 mapboxNavigation.startTripSession()
             }
 
