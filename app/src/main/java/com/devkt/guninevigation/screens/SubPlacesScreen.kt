@@ -1,5 +1,7 @@
 package com.devkt.guninevigation.screens
 
+import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,15 +26,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.devkt.guninevigation.R
+import com.devkt.guninevigation.screens.map.MapActivity
 import com.devkt.guninevigation.viewModel.GetMoreLocationsViewModel
 
 @Composable
@@ -43,6 +48,7 @@ fun SubPlacesScreen(
     mainLocation: String
 ) {
     val state = viewModel.getSubLocations.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(
         key1 = true
@@ -106,6 +112,12 @@ fun SubPlacesScreen(
                                     .fillMaxWidth()
                                     .height(60.dp)
                                     .padding(top = 2.dp)
+                                    .clickable {
+                                        val intent = Intent(context, MapActivity::class.java)
+                                        intent.putExtra("longitude", (data[it][5] as? String)?.toDoubleOrNull())
+                                        intent.putExtra("latitude", (data[it][6] as? String)?.toDoubleOrNull())
+                                        context.startActivity(intent)
+                                    }
                             ) {
                                 Row(
                                     modifier = Modifier.fillMaxSize(),

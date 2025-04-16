@@ -40,6 +40,9 @@ import com.mapbox.navigation.ui.maps.route.line.model.MapboxRouteLineViewOptions
 
 class MapActivity : ComponentActivity() {
 
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+
     private lateinit var mapView: MapView
     private lateinit var viewportDataSource: MapboxNavigationViewportDataSource
     private lateinit var navigationCamera: NavigationCamera
@@ -68,6 +71,9 @@ class MapActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        longitude = intent.getDoubleExtra("longitude", 0.0)
+        latitude = intent.getDoubleExtra("latitude", 0.0)
 
         if (ActivityCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION
@@ -144,7 +150,7 @@ class MapActivity : ComponentActivity() {
 
             if (origin == null && !routeRequested) {
                 origin = Point.fromLngLat(enhanced.longitude, enhanced.latitude)
-                destination = Point.fromLngLat(72.380941, 23.607099)
+                destination = Point.fromLngLat(longitude, latitude)
                 requestRouteIfReady()
             }
         }
