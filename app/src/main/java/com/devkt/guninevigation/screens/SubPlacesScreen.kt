@@ -64,7 +64,13 @@ fun SubPlacesScreen(
         }
 
         state.value.error != null -> {
-            Text(text = state.value.error!!, modifier = Modifier.padding(50.dp))
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "No Data Found.")
+            }
         }
 
         state.value.data != null -> {

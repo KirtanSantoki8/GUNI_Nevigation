@@ -69,7 +69,6 @@ fun OtherPlacesScreen(
         state.value.data != null -> {
             val data = state.value.data!!.message
             val status = state.value.data!!.status
-            Log.d("TAG", "OtherPlacesScreen: $status")
             if (status == 400) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
