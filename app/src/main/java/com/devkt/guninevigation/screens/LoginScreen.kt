@@ -56,7 +56,9 @@ fun LoginScreen(
         }
         state.value.data != null -> {
             Toast.makeText(context, "Logged In Successfully", Toast.LENGTH_SHORT).show()
-            navController.navigate(Routs.HomeScreen)
+            navController.navigate(Routs.HomeScreen){
+                popUpTo(Routs.LoginScreen) { inclusive = true }
+            }
         }
     }
 

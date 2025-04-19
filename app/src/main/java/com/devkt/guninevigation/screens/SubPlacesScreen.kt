@@ -114,8 +114,8 @@ fun SubPlacesScreen(
                                     .padding(top = 2.dp)
                                     .clickable {
                                         val intent = Intent(context, MapActivity::class.java)
-                                        intent.putExtra("longitude", (data[it][5] as? String)?.toDoubleOrNull())
-                                        intent.putExtra("latitude", (data[it][6] as? String)?.toDoubleOrNull())
+                                        intent.putExtra("longitude", (data[it][7] as? String)?.toDoubleOrNull())
+                                        intent.putExtra("latitude", (data[it][8] as? String)?.toDoubleOrNull())
                                         context.startActivity(intent)
                                     }
                             ) {
