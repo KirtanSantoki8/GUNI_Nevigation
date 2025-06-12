@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GUNI Nevigation</string>
     <string name="title_activity_map">MapActivity</string>
+    <string name="mapbox_token" translatable="false" tools:ignore="UnusedResources">pk.eyJ1Ijoia2lydGFuMDgiLCJhIjoiY205ODdiemJhMDAwdTJpc2VrcHBrbDIzYyJ9.3f-z9GlEa3eqImotzVN2iA</string>
 </resources>

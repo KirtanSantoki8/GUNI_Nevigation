@@ -1,6 +1,7 @@
 package com.devkt.guninevigation.screens.map
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,14 +15,16 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import com.mapbox.maps.MapView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContentOnMapScreen(modifier: Modifier = Modifier) {
-
+fun ContentOnMapScreen(onMapViewReady: (MapView) -> Unit) {
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(
             skipPartiallyExpanded = false,
@@ -33,35 +36,31 @@ fun ContentOnMapScreen(modifier: Modifier = Modifier) {
     )
 
     BottomSheetScaffold(
-        modifier = modifier,
         scaffoldState = scaffoldState,
         sheetPeekHeight = 100.dp,
-        sheetShadowElevation = 50.dp,
-        sheetTonalElevation = 50.dp,
+        sheetShadowElevation = 8.dp,
+        sheetTonalElevation = 1.dp,
         sheetContent = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(350.dp)
-                    .padding(10.dp)
+                    .padding(16.dp)
             ) {
-                Text("This is the bottom sheet")
+                Text("This is the bottom sheet content.")
             }
         }
-    ) { innerPadding ->
-        Column(
+    ) { paddingValues ->
+        val context = LocalContext.current
+        AndroidView(
+            factory = {
+                val view = MapView(context)
+                onMapViewReady(view)
+                view
+            },
             modifier = Modifier
+                .padding(paddingValues)
                 .fillMaxSize()
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Main Content")
-        }
+        )
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun Test() {
-    ContentOnMapScreen()
 }

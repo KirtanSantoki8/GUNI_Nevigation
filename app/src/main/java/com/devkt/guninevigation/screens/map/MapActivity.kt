@@ -8,6 +8,23 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import com.devkt.guninevigation.ui.theme.GUNINevigationTheme
 import com.mapbox.api.directions.v5.models.RouteOptions
@@ -64,7 +81,7 @@ class MapActivity : ComponentActivity() {
 
             if (granted) {
                 isPermissionGranted = true
-                initializeMapComponents()
+                showMapComposable()
             } else {
                 isPermissionGranted = false
                 Toast.makeText(this, "Location permission denied.", Toast.LENGTH_SHORT).show()
@@ -82,14 +99,7 @@ class MapActivity : ComponentActivity() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             isPermissionGranted = true
-            initializeMapComponents()
-
-            setContent {
-                GUNINevigationTheme {
-                    ContentOnMapScreen()
-                }
-            }
-
+            showMapComposable()
         } else {
             locationPermissionRequest.launch(
                 arrayOf(
@@ -100,12 +110,18 @@ class MapActivity : ComponentActivity() {
         }
     }
 
+    private fun showMapComposable() {
+        setContent {
+            GUNINevigationTheme {
+                ContentOnMapScreen(onMapViewReady = {
+                    mapView = it
+                    initializeMapComponents()
+                })
+            }
+        }
+    }
+
     private fun initializeMapComponents() {
-        if (!isPermissionGranted) return
-
-        mapView = MapView(this)
-        setContentView(mapView)
-
         mapView.mapboxMap.setCamera(
             CameraOptions.Builder()
                 .center(Point.fromLngLat(72.380941, 23.607099))
@@ -167,25 +183,23 @@ class MapActivity : ComponentActivity() {
 
     @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private val mapboxNavigation: MapboxNavigation by requireMapboxNavigation(
-        onInitialize = this::initNavigation,
+        onInitialize = {
+            MapboxNavigationApp.setup(
+                NavigationOptions.Builder(this@MapActivity).build()
+            )
+        },
         onResumedObserver = object : MapboxNavigationObserver {
             @SuppressLint("MissingPermission")
             override fun onAttached(mapboxNavigation: MapboxNavigation) {
                 if (!isPermissionGranted) return
                 mapboxNavigation.registerRoutesObserver(routesObserver)
                 mapboxNavigation.registerLocationObserver(locationObserver)
-
                 mapboxNavigation.startTripSession()
             }
 
             override fun onDetached(mapboxNavigation: MapboxNavigation) {}
         }
     )
-
-    @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
-    private fun initNavigation() {
-        MapboxNavigationApp.setup(NavigationOptions.Builder(this).build())
-    }
 
     @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private fun requestRouteIfReady() {
@@ -210,11 +224,7 @@ class MapActivity : ComponentActivity() {
                     }
 
                     override fun onCanceled(routeOptions: RouteOptions, routerOrigin: String) {}
-
-                    override fun onFailure(
-                        reasons: List<RouterFailure>,
-                        routeOptions: RouteOptions
-                    ) {}
+                    override fun onFailure(reasons: List<RouterFailure>, routeOptions: RouteOptions) {}
                 }
             )
         }
