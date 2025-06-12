@@ -2,7 +2,8 @@ package com.devkt.guninevigation.screens.map
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,8 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.devkt.guninevigation.viewModel.GetSpecificSubLocationViewModel
@@ -67,7 +69,8 @@ fun ContentOnMapScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(350.dp)
-                    .padding(16.dp)
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 when {
                     state.value.isLoading -> {
@@ -87,10 +90,21 @@ fun ContentOnMapScreen(
                             phoneNo = it.phone_no
                             imageUrl = it.imageUrl
                         }
-                        Text(text = name)
-                        Text(text = description)
-                        Text(text = phoneNo)
-                        Text(text = imageUrl)
+                        Text(
+                            text = name,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 2
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Row {
+                            Text(text = imageUrl)
+                            Column {
+                                Text(text = description)
+                                Spacer(modifier = Modifier.height(5.dp))
+                                Text(text = phoneNo)
+                            }
+                        }
                     }
                 }
             }
