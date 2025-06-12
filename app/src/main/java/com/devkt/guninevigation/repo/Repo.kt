@@ -5,6 +5,7 @@ import com.devkt.guninevigation.model.CreateUserResponse
 import com.devkt.guninevigation.common.Result
 import com.devkt.guninevigation.model.GetMoreLocationsResponse
 import com.devkt.guninevigation.model.GetSubLocationsResponse
+import com.devkt.guninevigation.model.SpecificLocationResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -55,6 +56,18 @@ class Repo @Inject constructor(private val api: ApiBuilder) {
         emit(Result.Loading)
         try {
             val response = api.api.getSubLocations(mainLocation)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    suspend fun getSpecificSubLocation(
+        subLocation: String
+    ): Flow<Result<Response<SpecificLocationResponse>>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = api.api.getSpecificSubLocation(subLocation)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))

@@ -3,6 +3,7 @@ package com.devkt.guninevigation.api
 import com.devkt.guninevigation.model.CreateUserResponse
 import com.devkt.guninevigation.model.GetMoreLocationsResponse
 import com.devkt.guninevigation.model.GetSubLocationsResponse
+import com.devkt.guninevigation.model.SpecificLocationResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -34,4 +35,10 @@ interface ApiService {
     suspend fun getSubLocations(
         @Field("mainLocation") mainLocation: String
     ): Response<GetSubLocationsResponse>
+
+    @FormUrlEncoded
+    @POST("getSpecificSubLocation")
+    suspend fun getSpecificSubLocation(
+        @Field("name") subLocation: String
+    ): Response<SpecificLocationResponse>
 }

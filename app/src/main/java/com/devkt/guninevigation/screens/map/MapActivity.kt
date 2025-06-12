@@ -39,9 +39,12 @@ import com.mapbox.navigation.ui.maps.route.line.api.MapboxRouteLineApi
 import com.mapbox.navigation.ui.maps.route.line.api.MapboxRouteLineView
 import com.mapbox.navigation.ui.maps.route.line.model.MapboxRouteLineApiOptions
 import com.mapbox.navigation.ui.maps.route.line.model.MapboxRouteLineViewOptions
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MapActivity : ComponentActivity() {
 
+    private var subLocationName: String = ""
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
 
@@ -74,6 +77,7 @@ class MapActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        subLocationName = intent.getStringExtra("subLocationName").toString()
         longitude = intent.getDoubleExtra("longitude", 0.0)
         latitude = intent.getDoubleExtra("latitude", 0.0)
 
@@ -96,10 +100,13 @@ class MapActivity : ComponentActivity() {
     private fun showMapComposable() {
         setContent {
             GUNINevigationTheme {
-                ContentOnMapScreen(onMapViewReady = {
-                    mapView = it
-                    initializeMapComponents()
-                })
+                ContentOnMapScreen(
+                    onMapViewReady = {
+                        mapView = it
+                        initializeMapComponents()
+                    },
+                    subLocationName = subLocationName
+                )
             }
         }
     }
