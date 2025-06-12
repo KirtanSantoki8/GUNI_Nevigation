@@ -50,7 +50,7 @@ fun ContentOnMapScreen(onMapViewReady: (MapView) -> Unit) {
                 Text("This is the bottom sheet content.")
             }
         }
-    ) { paddingValues ->
+    ) { innerPadding ->
         val context = LocalContext.current
         AndroidView(
             factory = {
@@ -59,7 +59,7 @@ fun ContentOnMapScreen(onMapViewReady: (MapView) -> Unit) {
                 view
             },
             modifier = Modifier
-                .padding(paddingValues)
+                .padding(innerPadding)
                 .fillMaxSize()
         )
     }
