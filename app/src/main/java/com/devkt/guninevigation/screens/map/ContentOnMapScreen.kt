@@ -33,7 +33,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -141,12 +143,14 @@ fun ContentOnMapScreen(
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            text = description,
-                            modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+                            text = "\" $description \"",
+                            fontSize = 17.sp,
+                            textAlign = TextAlign.Justify,
+                            modifier = Modifier.padding(start = 25.dp, end = 25.dp)
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Row(
-                            modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                            modifier = Modifier.padding(start = 25.dp, end = 25.dp, bottom = 15.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
