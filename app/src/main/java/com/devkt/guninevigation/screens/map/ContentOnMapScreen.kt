@@ -142,11 +142,11 @@ fun ContentOnMapScreen(
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = description,
-                            modifier = Modifier.padding(start = 15.dp, end = 15.dp)
+                            modifier = Modifier.padding(start = 20.dp, end = 20.dp)
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Row(
-                            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+                            modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
