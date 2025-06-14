@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -228,11 +231,27 @@ fun ContentOnMapScreen(
                 onClick = {
 
                 },
+                colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(start = 8.dp, bottom = padding)
             ) {
-                Text(text = "Start")
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.navigation_svgrepo_com),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(25.dp)
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = "Start",
+                        color = Color.White
+                    )
+                }
             }
         }
     }
