@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +34,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -202,9 +202,13 @@ fun ContentOnMapScreen(
                 onClick = {
 
                 },
-                modifier = Modifier.padding(top = 60.dp, end = 10.dp)
+                modifier = Modifier
+                    .padding(top = 60.dp, end = 10.dp)
                     .align(Alignment.TopEnd)
-                    .border(border = BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(10.dp))
+                    .border(
+                        border = BorderStroke(2.dp, Color.Black),
+                        shape = RoundedCornerShape(10.dp)
+                    )
             ) {
                 Icon(
                     painter = painterResource(R.drawable.close_sm_svgrepo_com),
@@ -212,6 +216,23 @@ fun ContentOnMapScreen(
                     tint = Color.Black,
                     modifier = Modifier.size(30.dp)
                 )
+            }
+
+            var padding = 90.dp
+
+            if (SheetValue.Expanded == scaffoldState.bottomSheetState.currentValue){
+                padding = 400.dp
+            }
+
+            Button(
+                onClick = {
+
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 8.dp, bottom = padding)
+            ) {
+                Text(text = "Start")
             }
         }
     }
