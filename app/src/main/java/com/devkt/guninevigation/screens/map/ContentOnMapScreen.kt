@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -34,6 +33,11 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,14 +57,27 @@ import coil3.compose.AsyncImage
 import com.devkt.guninevigation.R
 import com.devkt.guninevigation.viewModel.GetSpecificSubLocationViewModel
 import com.mapbox.maps.MapView
+import com.mapbox.navigation.ui.maps.camera.NavigationCamera
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+enum class NavigationUIState {
+    SHOW_DESTINATION,
+    SHOW_ROUTE
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContentOnMapScreen(
     onMapViewReady: (MapView) -> Unit,
+    onStartNavigation: () -> Unit,
+    onStopNavigation: () -> Unit,
     viewModel: GetSpecificSubLocationViewModel = hiltViewModel(),
     subLocationName: String
 ) {
+
+    var uiState by remember { mutableStateOf(NavigationUIState.SHOW_DESTINATION) }
 
     val state = viewModel.getSpecificSubLocation.collectAsState()
 
@@ -70,6 +87,7 @@ fun ContentOnMapScreen(
     var imageUrl = ""
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val scrollState = rememberScrollState()
 
@@ -80,7 +98,7 @@ fun ContentOnMapScreen(
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(
             skipPartiallyExpanded = false,
-            initialValue = SheetValue.PartiallyExpanded,
+            initialValue = SheetValue.Expanded,
             density = LocalDensity.current,
             confirmValueChange = { true },
             skipHiddenState = true
@@ -201,35 +219,46 @@ fun ContentOnMapScreen(
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
-            IconButton(
-                onClick = {
-
-                },
-                modifier = Modifier
-                    .padding(top = 60.dp, end = 10.dp)
-                    .align(Alignment.TopEnd)
-                    .border(
-                        border = BorderStroke(2.dp, Color.Black),
-                        shape = RoundedCornerShape(10.dp)
+            if (uiState == NavigationUIState.SHOW_ROUTE) {
+                IconButton(
+                    onClick = {
+                        uiState = NavigationUIState.SHOW_DESTINATION
+                        onStopNavigation()
+                        scope.launch {
+                            scaffoldState.bottomSheetState.expand()
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(top = 60.dp, end = 10.dp)
+                        .align(Alignment.TopEnd)
+                        .border(
+                            border = BorderStroke(2.dp, Color.Black),
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.close_sm_svgrepo_com),
+                        contentDescription = null,
+                        tint = Color.Black,
+                        modifier = Modifier.size(30.dp)
                     )
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.close_sm_svgrepo_com),
-                    contentDescription = null,
-                    tint = Color.Black,
-                    modifier = Modifier.size(30.dp)
-                )
+                }
             }
 
-            var padding = 90.dp
-
-            if (SheetValue.Expanded == scaffoldState.bottomSheetState.currentValue){
-                padding = 400.dp
-            }
+            val padding = if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) 400.dp else 90.dp
 
             Button(
                 onClick = {
+                    if (uiState == NavigationUIState.SHOW_ROUTE) {
 
+                    }
+                    else {
+                        uiState = NavigationUIState.SHOW_ROUTE
+                        onStartNavigation()
+                        scope.launch {
+                            scaffoldState.bottomSheetState.partialExpand()
+                        }
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 modifier = Modifier
@@ -241,14 +270,24 @@ fun ContentOnMapScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.navigation_svgrepo_com),
+                        painter = if (uiState == NavigationUIState.SHOW_ROUTE) {
+                            painterResource(R.drawable.navigation_svgrepo_com__1_)
+                        }
+                        else {
+                            painterResource(R.drawable.navigation_svgrepo_com)
+                        },
                         contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.size(25.dp)
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = "Start",
+                        text = if (uiState == NavigationUIState.SHOW_ROUTE) {
+                            "Recenter"
+                        }
+                        else {
+                            "Start"
+                        },
                         color = Color.White
                     )
                 }
