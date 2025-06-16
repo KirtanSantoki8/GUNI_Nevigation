@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.devkt.guninevigation.R
 import com.devkt.guninevigation.ui.theme.GUNINevigationTheme
+import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.common.location.Location
 import com.mapbox.geojson.Point
@@ -23,6 +24,8 @@ import com.mapbox.maps.plugin.animation.camera
 import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
+import com.mapbox.maps.plugin.gestures.OnMoveListener
+import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.createDefault2DPuck
 import com.mapbox.maps.plugin.locationcomponent.location
 import com.mapbox.navigation.base.ExperimentalPreviewMapboxNavigationAPI
@@ -118,6 +121,9 @@ class MapActivity : ComponentActivity() {
                     onStopNavigation = {
                         clearRoutesAndResetCamera()
                     },
+                    onRecenter = {
+                        recenterToUserLocation()
+                    }
                 )
             }
         }
@@ -158,6 +164,16 @@ class MapActivity : ComponentActivity() {
             .withIconSize(0.3)
 
         annotationManager.create(destinationMarker)
+
+        mapView.gestures.addOnMoveListener(object : OnMoveListener {
+            override fun onMoveBegin(detector: MoveGestureDetector) {
+                navigationCamera.requestNavigationCameraToIdle()
+            }
+
+            override fun onMove(detector: MoveGestureDetector): Boolean = false
+
+            override fun onMoveEnd(detector: MoveGestureDetector) {}
+        })
     }
 
     private fun moveToDestinationOnly() {
@@ -185,7 +201,7 @@ class MapActivity : ComponentActivity() {
 
         mapboxNavigation.setNavigationRoutes(emptyList())
 
-        mapView.mapboxMap.getStyle()?.let { style ->
+        mapView.mapboxMap.style?.let { style ->
             routeLineApi.clearRouteLine { result ->
                 routeLineView.renderClearRouteLineValue(style, result)
                 navigationCamera.requestNavigationCameraToIdle()
@@ -195,6 +211,9 @@ class MapActivity : ComponentActivity() {
         }
     }
 
+    private fun recenterToUserLocation() {
+        navigationCamera.requestNavigationCameraToFollowing()
+    }
 
     private val routesObserver = RoutesObserver { result ->
         if (result.navigationRoutes.isNotEmpty()) {
@@ -206,7 +225,7 @@ class MapActivity : ComponentActivity() {
 
             viewportDataSource.onRouteChanged(result.navigationRoutes.first())
             viewportDataSource.evaluate()
-            navigationCamera.requestNavigationCameraToOverview()
+            navigationCamera.requestNavigationCameraToFollowing()
         }
     }
 
@@ -273,7 +292,11 @@ class MapActivity : ComponentActivity() {
                     }
 
                     override fun onCanceled(routeOptions: RouteOptions, routerOrigin: String) {}
-                    override fun onFailure(reasons: List<RouterFailure>, routeOptions: RouteOptions) {}
+                    override fun onFailure(
+                        reasons: List<RouterFailure>,
+                        routeOptions: RouteOptions
+                    ) {
+                    }
                 }
             )
         }

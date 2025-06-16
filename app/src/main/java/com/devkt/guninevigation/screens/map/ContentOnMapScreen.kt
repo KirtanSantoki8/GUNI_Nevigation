@@ -57,9 +57,6 @@ import coil3.compose.AsyncImage
 import com.devkt.guninevigation.R
 import com.devkt.guninevigation.viewModel.GetSpecificSubLocationViewModel
 import com.mapbox.maps.MapView
-import com.mapbox.navigation.ui.maps.camera.NavigationCamera
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 enum class NavigationUIState {
@@ -73,6 +70,7 @@ fun ContentOnMapScreen(
     onMapViewReady: (MapView) -> Unit,
     onStartNavigation: () -> Unit,
     onStopNavigation: () -> Unit,
+    onRecenter: () -> Unit,
     viewModel: GetSpecificSubLocationViewModel = hiltViewModel(),
     subLocationName: String
 ) {
@@ -245,14 +243,14 @@ fun ContentOnMapScreen(
                 }
             }
 
-            val padding = if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) 400.dp else 90.dp
+            val padding =
+                if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) 400.dp else 90.dp
 
             Button(
                 onClick = {
                     if (uiState == NavigationUIState.SHOW_ROUTE) {
-
-                    }
-                    else {
+                        onRecenter()
+                    } else {
                         uiState = NavigationUIState.SHOW_ROUTE
                         onStartNavigation()
                         scope.launch {
@@ -272,8 +270,7 @@ fun ContentOnMapScreen(
                     Icon(
                         painter = if (uiState == NavigationUIState.SHOW_ROUTE) {
                             painterResource(R.drawable.navigation_svgrepo_com__1_)
-                        }
-                        else {
+                        } else {
                             painterResource(R.drawable.navigation_svgrepo_com)
                         },
                         contentDescription = null,
@@ -284,8 +281,7 @@ fun ContentOnMapScreen(
                     Text(
                         text = if (uiState == NavigationUIState.SHOW_ROUTE) {
                             "Recenter"
-                        }
-                        else {
+                        } else {
                             "Start"
                         },
                         color = Color.White
